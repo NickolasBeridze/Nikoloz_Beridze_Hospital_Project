@@ -11,7 +11,9 @@ using Hospital_Project.Models;
 namespace Hospital_Project
 {
     internal class Program 
+
     {
+
         private static readonly string FilePath = @"C:\Users\User\source\repos\Hospital_Project\Text_Files\User_Data.txt";
         private static readonly JsonSerializerOptions CachedJsonOptions = new() { WriteIndented = true };
 
@@ -23,6 +25,7 @@ namespace Hospital_Project
             await Greet();
             await Config();
         }
+
 
         public static async Task Greet()
         {
