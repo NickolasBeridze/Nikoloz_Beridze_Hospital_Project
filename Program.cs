@@ -479,7 +479,6 @@ namespace Hospital_Project
 
             return JsonSerializer.Deserialize<List<Patient>>(json) ?? [];
         }
-
         private static async Task SaveUsersAsync(List<Patient> users)
         {
             string? directory = Path.GetDirectoryName(FilePath);
