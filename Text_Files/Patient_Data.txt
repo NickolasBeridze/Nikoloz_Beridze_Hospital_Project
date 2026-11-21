@@ -1,31 +1,14 @@
 [
   {
-    "Disease": "Operation",
+    "Disease": "Dermatology Problems",
     "Insurance": "JPG",
     "BloodType": 0,
     "Allergies": "Nothing",
     "Consultation_Time": 0,
-    "Balance": 2764.00,
+    "Balance": 2504.40,
     "PendingBill": 0,
     "Pin": "2012",
-    "Appointments": [
-      {
-        "DoctorId": 1,
-        "DoctorName": "Dr. Giorgi Beridze",
-        "Disease": "Broken_Leg",
-        "Hours": 2,
-        "Cost": 118.00,
-        "IsPaid": true
-      },
-      {
-        "DoctorId": 2,
-        "DoctorName": "Dr. Nino Kapanadze",
-        "Disease": "Operation",
-        "Hours": 5,
-        "Cost": 1180.00,
-        "IsPaid": true
-      }
-    ],
+    "Appointments": [],
     "Id": 1,
     "FullName": "Nicholas Hernandez Beridze",
     "Email": "nick@gmail.com",

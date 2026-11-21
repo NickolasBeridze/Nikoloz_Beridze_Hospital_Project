@@ -1,1 +1,12 @@
-﻿
+[
+  {
+    "PatientId": 1,
+    "PatientName": "Nicholas Hernandez Beridze",
+    "DoctorId": 5,
+    "DoctorName": "Dr. Davit Maisuradze",
+    "Disease": "Dermatology Problems",
+    "Hours": 2,
+    "Cost": 259.60,
+    "PaidAt": "2026-11-21T20:51:29.4833473+04:00"
+  }
+]
