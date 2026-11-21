@@ -13,6 +13,8 @@ namespace Hospital_Project.Models
         public decimal Balance { get; set; } = 0;
         public decimal PendingBill { get; set; } = 0;
         public string Pin { get; set; } = string.Empty;
+
+        
         public List<AppointmentInfo> Appointments { get; set; } = [];
     }
 

@@ -9,6 +9,7 @@ namespace Hospital_Project.Models
         public string Email { get; set; } = string.Empty;
         public string PN { get; set; } = string.Empty;
         
+        public decimal Balance { get; set; }
         public string Password { get; set; } = string.Empty;
 
         public User() { }

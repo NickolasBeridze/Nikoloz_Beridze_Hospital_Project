@@ -1,0 +1,51 @@
+[
+  {
+    "Disease": "Operation",
+    "Insurance": "JPG",
+    "BloodType": 0,
+    "Allergies": "Nothing",
+    "Consultation_Time": 0,
+    "Balance": 2764.00,
+    "PendingBill": 0,
+    "Pin": "2012",
+    "Appointments": [
+      {
+        "DoctorId": 1,
+        "DoctorName": "Dr. Giorgi Beridze",
+        "Disease": "Broken_Leg",
+        "Hours": 2,
+        "Cost": 118.00,
+        "IsPaid": true
+      },
+      {
+        "DoctorId": 2,
+        "DoctorName": "Dr. Nino Kapanadze",
+        "Disease": "Operation",
+        "Hours": 5,
+        "Cost": 1180.00,
+        "IsPaid": true
+      }
+    ],
+    "Id": 1,
+    "FullName": "Nicholas Hernandez Beridze",
+    "Email": "nick@gmail.com",
+    "PN": "\u002B995593353736",
+    "Password": "Nicholas__201214"
+  },
+  {
+    "Disease": "Flu",
+    "Insurance": "Jet2_Holiday",
+    "BloodType": 0,
+    "Allergies": "Peanut , Flowers",
+    "Consultation_Time": 0,
+    "Balance": 8820.00,
+    "PendingBill": 0,
+    "Pin": "1234",
+    "Appointments": [],
+    "Id": 2,
+    "FullName": "Nicholas",
+    "Email": "Hernandez@gmail.com",
+    "PN": "3923923892",
+    "Password": "Nickolas__201214"
+  }
+]

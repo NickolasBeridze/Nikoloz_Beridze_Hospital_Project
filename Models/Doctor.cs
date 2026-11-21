@@ -5,7 +5,7 @@ namespace Hospital_Project.Models
 {
     abstract class Doctor : User
     {
-        public int Expertise { get; set; } = 0;
+        public int Expertise { get; set; }
         public Doctor_ENUMS Specialize { get; set; } = Doctor_ENUMS.GENERAL_DOCTOR;
         public decimal ConsultationFee { get; set; } = 0;
 
