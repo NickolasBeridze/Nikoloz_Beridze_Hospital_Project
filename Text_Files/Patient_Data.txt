@@ -1,11 +1,11 @@
 [
   {
-    "Disease": "Dermatology Problems",
+    "Disease": "Heart Attack",
     "Insurance": "JPG",
     "BloodType": 0,
     "Allergies": "Nothing",
     "Consultation_Time": 0,
-    "Balance": 2504.40,
+    "Balance": 1619.40,
     "PendingBill": 0,
     "Pin": "2012",
     "Appointments": [],

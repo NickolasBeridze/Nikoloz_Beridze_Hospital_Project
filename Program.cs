@@ -514,6 +514,7 @@ namespace Hospital_Project
                             "View Balance",
                             "Pay Bills",
                             "View My Appointments",
+                            "View Appointment History",
                             "Logout"));
 
                 try
@@ -542,6 +543,10 @@ namespace Hospital_Project
 
                         case "View My Appointments":
                             ShowPatientAppointments(loggedInUser);
+                            break;
+
+                        case "View Appointment History":
+                            await ShowAppointmentHistoryAsync(loggedInUser);
                             break;
 
                         case "Logout":
@@ -811,6 +816,72 @@ namespace Hospital_Project
             }
 
             AnsiConsole.Write(table);
+        }
+
+        private static async Task ShowAppointmentHistoryAsync(Patient patient)
+        {
+            if (!File.Exists(AppointmentFilePath))
+            {
+                AnsiConsole.MarkupLine("[yellow]No appointment history found.[/]");
+                return;
+            }
+
+            string content = await File.ReadAllTextAsync(AppointmentFilePath);
+
+            if (string.IsNullOrWhiteSpace(content))
+            {
+                AnsiConsole.MarkupLine("[yellow]Your appointment history is empty.[/]");
+                return;
+            }
+
+            List<Appointment> allAppointments =
+                JsonSerializer.Deserialize<List<Appointment>>(content) ?? [];
+
+            List<Appointment> patientHistory = allAppointments
+                .Where(a => a.PatientId == patient.Id)
+                .OrderByDescending(a => a.History)
+                .ToList();
+
+            if (patientHistory.Count == 0)
+            {
+                AnsiConsole.MarkupLine("[yellow]You have no paid appointment history yet.[/]");
+                return;
+            }
+
+            Table table = new Table()
+                .Border(TableBorder.Rounded)
+                .BorderColor(Color.Green)
+                .Title("[bold green]My Appointment History[/]")
+                .Expand();
+
+            table.AddColumn("Doctor");
+            table.AddColumn("Disease");
+            table.AddColumn("Hours");
+            table.AddColumn("Payment");
+            table.AddColumn("Status");
+            table.AddColumn("Date & Time");
+
+            foreach (Appointment appointment in patientHistory)
+            {
+                table.AddRow(
+                    Markup.Escape(appointment.DoctorName),
+                    Markup.Escape(appointment.Disease),
+                    $"{appointment.Hours:F2}",
+                    $"[green]${appointment.Payment:F2}[/]",
+                    appointment.IsPaid ? "[green]Paid[/]" : "[red]Unpaid[/]",
+                    appointment.History.ToString("yyyy-MM-dd HH:mm:ss"));
+            }
+
+            AnsiConsole.Write(table);
+
+            decimal totalPaid = patientHistory
+                .Where(a => a.IsPaid)
+                .Sum(a => a.Payment);
+
+            AnsiConsole.MarkupLine(
+                $"\n[bold]Total paid appointments:[/] {patientHistory.Count(a => a.IsPaid)}");
+            AnsiConsole.MarkupLine(
+                $"[bold]Total amount paid:[/] [green]${totalPaid:F2}[/]");
         }
 
         private static async Task<List<Patient>> LoadUsersAsync()

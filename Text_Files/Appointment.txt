@@ -6,7 +6,19 @@
     "DoctorName": "Dr. Davit Maisuradze",
     "Disease": "Dermatology Problems",
     "Hours": 2,
-    "Cost": 259.60,
-    "PaidAt": "2026-11-21T20:51:29.4833473+04:00"
+    "Payment": 299.83,
+    "IsPaid": True,
+    "History": "0001-01-01T00:00:00"
+  },
+  {
+    "PatientId": 1,
+    "PatientName": "Nicholas Hernandez Beridze",
+    "DoctorId": 3,
+    "DoctorName": "Dr. Luka Lomidze",
+    "Disease": "Heart Attack",
+    "Hours": 5,
+    "Payment": 885.00,
+    "IsPaid": true,
+    "History": "2026-11-21T21:03:29.5390663+04:00"
   }
 ]
