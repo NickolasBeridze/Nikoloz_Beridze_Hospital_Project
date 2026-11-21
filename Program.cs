@@ -10,6 +10,7 @@ namespace Hospital_Project
     {
         private const string PatientDataFilePath = @"C:\Users\User\source\repos\Hospital_Project\Text_Files\Patient_Data.txt";
         private const string DoctorBalanceFilePath = @"C:\Users\User\source\repos\Hospital_Project\Text_Files\Doctor_Balances.txt";
+        private const string AppointmentFilePath = @"C:\Users\User\source\repos\Hospital_Project\Text_Files\Appointment.txt";
         private static readonly JsonSerializerOptions CachedJsonOptions = new() { WriteIndented = true };
 
         private const string AdminEmail = "admin@hospital.com";
@@ -687,9 +688,9 @@ namespace Hospital_Project
         }
 
         private static async Task PayPatientBillsAsync(
-            Patient patient,
-            List<Patient> registeredUsers,
-            List<Doctor> doctors)
+    Patient patient,
+    List<Patient> registeredUsers,
+    List<Doctor> doctors)
         {
             if (patient.PendingBill <= 0)
             {
@@ -718,13 +719,35 @@ namespace Hospital_Project
             if (pin != patient.Pin)
                 throw new Exception_Class("Incorrect PIN. Payment cancelled.");
 
+            List<AppointmentInfo> appointmentsToPay =
+                patient.Appointments.Where(a => !a.IsPaid).ToList();
+
+            if (appointmentsToPay.Count == 0)
+                throw new Exception_Class("No unpaid appointments found.");
+
+            List<ArchivedAppointment> archivedAppointments = appointmentsToPay
+                .Select(a => new ArchivedAppointment
+                {
+                    PatientId = patient.Id,
+                    PatientName = patient.FullName,
+                    DoctorId = a.DoctorId,
+                    DoctorName = a.DoctorName,
+                    Disease = a.Disease,
+                    Hours = a.Hours,
+                    Cost = a.Cost,
+                    PaidAt = DateTime.Now
+                })
+                .ToList();
+
+            await SavePaidAppointmentsAsync(archivedAppointments);
+
             decimal amountToPay = patient.PendingBill;
 
             patient.Balance -= amountToPay;
             patient.PendingBill = 0;
             patient.Consultation_Time = 0;
 
-            foreach (AppointmentInfo appointment in patient.Appointments.Where(a => !a.IsPaid))
+            foreach (AppointmentInfo appointment in appointmentsToPay)
             {
                 Doctor? doctor = doctors.FirstOrDefault(d => d.Id == appointment.DoctorId);
 
@@ -734,6 +757,8 @@ namespace Hospital_Project
                 appointment.IsPaid = true;
             }
 
+            patient.Appointments.RemoveAll(a => a.IsPaid);
+
             await SavePatientsAsync(registeredUsers);
             await SaveDoctorBalancesAsync(doctors);
 
@@ -741,9 +766,12 @@ namespace Hospital_Project
                 new Panel(
                     $"[bold green]Payment Successful![/]\n" +
                     $"[bold]Paid:[/] ${amountToPay:F2}\n" +
-                    $"[bold]Remaining Balance:[/] ${patient.Balance:F2}")
+                    $"[bold]Remaining Balance:[/] ${patient.Balance:F2}\n" +
+                    $"[bold]Appointments Archived:[/] {appointmentsToPay.Count}")
                     .BorderColor(Color.Green)
                     .RoundedBorder());
+
+            ShowSuccess("Paid appointments moved to Appointment.txt.");
         }
 
         private static void ShowPatientAppointments(Patient patient)
@@ -883,6 +911,35 @@ namespace Hospital_Project
                     doctor.Balance = balance;
             }
         }
+        private static async Task SavePaidAppointmentsAsync(
+    List<ArchivedAppointment> newAppointments)
+        {
+            List<ArchivedAppointment> archivedAppointments = [];
+
+            if (File.Exists(AppointmentFilePath))
+            {
+                string content = await File.ReadAllTextAsync(AppointmentFilePath);
+
+                if (!string.IsNullOrWhiteSpace(content))
+                {
+                    archivedAppointments =
+                        JsonSerializer.Deserialize<List<ArchivedAppointment>>(content) ?? [];
+                }
+            }
+
+            archivedAppointments.AddRange(newAppointments);
+
+            string? directory = Path.GetDirectoryName(AppointmentFilePath);
+
+            if (!string.IsNullOrWhiteSpace(directory))
+                Directory.CreateDirectory(directory);
+
+            string json = JsonSerializer.Serialize(
+                archivedAppointments,
+                CachedJsonOptions);
+
+            await File.WriteAllTextAsync(AppointmentFilePath, json);
+        }
     }
 
     internal class StaffDoctor(
@@ -895,3 +952,16 @@ namespace Hospital_Project
         int expertise)
         : Doctor(id, fullName, email, pn, password, specialize, 0, expertise);
 }
+
+internal class ArchivedAppointment
+{
+    public int PatientId { get; set; }
+    public string PatientName { get; set; } = "";
+    public int DoctorId { get; set; }
+    public string DoctorName { get; set; } = "";
+    public string Disease { get; set; } = "";
+    public decimal Hours { get; set; }
+    public decimal Cost { get; set; }
+    public DateTime PaidAt { get; set; }
+}
+
