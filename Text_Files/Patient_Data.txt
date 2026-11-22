@@ -1,11 +1,11 @@
 [
   {
-    "Disease": "Heart Attack",
+    "Disease": "\u10EA\u10D8\u10D4\u10D1-\u10EA\u10EE\u10D4\u10DA\u10D4\u10D1\u10D0",
     "Insurance": "JPG",
     "BloodType": 0,
     "Allergies": "Nothing",
     "Consultation_Time": 0,
-    "Balance": 1619.40,
+    "Balance": 1501.40,
     "PendingBill": 0,
     "Pin": "2012",
     "Appointments": [],

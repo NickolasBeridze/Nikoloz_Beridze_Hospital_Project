@@ -7,7 +7,7 @@
     "Disease": "Dermatology Problems",
     "Hours": 2,
     "Payment": 299.83,
-    "IsPaid": True,
+    "IsPaid": true,
     "History": "0001-01-01T00:00:00"
   },
   {
@@ -20,5 +20,16 @@
     "Payment": 885.00,
     "IsPaid": true,
     "History": "2026-11-21T21:03:29.5390663+04:00"
+  },
+  {
+    "PatientId": 1,
+    "PatientName": "Nicholas Hernandez Beridze",
+    "DoctorId": 1,
+    "DoctorName": "Dr. Giorgi Beridze",
+    "Disease": "\u10EA\u10D8\u10D4\u10D1-\u10EA\u10EE\u10D4\u10DA\u10D4\u10D1\u10D0",
+    "Hours": 2,
+    "Payment": 118.00,
+    "IsPaid": true,
+    "History": "2026-11-22T14:37:46.4743217+04:00"
   }
 ]
