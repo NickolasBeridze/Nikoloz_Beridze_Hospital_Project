@@ -1,5 +1,6 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using Hospital_Project.Enums;
+using Hospital_Project.Helpers;
 
 namespace Hospital_Project.Models
 {
@@ -16,6 +17,10 @@ namespace Hospital_Project.Models
 
         
         public List<AppointmentInfo> Appointments { get; set; } = [];
+
+        public override string GetRole() => "Patient";
+
+        public override string GetSummary() => $"{FullName} (ID {Id}) - {BloodTypeHelper.ToText(BloodType)}";
     }
 
     internal class AppointmentInfo
@@ -26,5 +31,8 @@ namespace Hospital_Project.Models
         public decimal Hours { get; set; }
         public decimal Cost { get; set; }
         public bool IsPaid { get; set; }
+
+        public DateTime ScheduledAt { get; set; }
+        public AppointmentStatus Status { get; set; } = AppointmentStatus.Scheduled;
     }
 }

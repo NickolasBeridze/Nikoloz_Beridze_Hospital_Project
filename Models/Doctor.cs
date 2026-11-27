@@ -1,4 +1,4 @@
-﻿using Hospital_Project.Enums;
+using Hospital_Project.Enums;
 using System;
 
 namespace Hospital_Project.Models
@@ -33,6 +33,10 @@ namespace Hospital_Project.Models
             Doctor_ENUMS.DENTIST => 90m,
             _ => throw new ArgumentOutOfRangeException(nameof(specialty), "Unknown specialty")
         };
+
+        public override string GetRole() => "Doctor";
+
+        public override string GetSummary() => $"{FullName} - {Specialize} - ${ConsultationFee:F2}/hr";
 
         public decimal CalculatePrice(Patient patient, decimal tax = 0.18m)
         {

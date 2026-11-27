@@ -1,14 +1,15 @@
-﻿using Hospital_Project.Exceptions;
+using Hospital_Project.Exceptions;
+using Hospital_Project.Helpers;
 
 namespace Hospital_Project.Models
 {
-    internal class User
+    internal abstract class User
     {
         public int Id { get; set; }
         public string FullName { get; set; } = string.Empty;
         public string Email { get; set; } = string.Empty;
         public string PN { get; set; } = string.Empty;
-        
+
         public decimal Balance { get; set; }
         public string Password { get; set; } = string.Empty;
 
@@ -25,6 +26,21 @@ namespace Hospital_Project.Models
             Email = email;
             PN = pn;
             Password = password;
+        }
+
+        public abstract string GetRole();
+        public abstract string GetSummary();
+
+        public bool PasswordMatches(string input) => Password == input;
+
+        public void ChangePassword(string newPassword, string confirmPassword)
+        {
+            Validator.ValidateNewPassword(newPassword, Password);
+
+            if (newPassword != confirmPassword)
+                throw Exception_Class.Passwords_Do_Not_Match();
+
+            Password = newPassword;
         }
     }
 }
